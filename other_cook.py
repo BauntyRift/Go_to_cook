@@ -43,72 +43,33 @@ def get_shop_list_by_dishes(dishes, person_count):
 
 
 
-def end_file(path1=None, path2=None, path3=None):
-    if path1 or path2 or path3 is None:
-        path1 = '1.txt'
-        path2 = '2.txt'
-        path3 = '3.txt'
-        os.chdir('sorted')
-        output_file = "output_file.txt"
-        file1_path = os.path.join(os.getcwd(), path1)
-        file2_path = os.path.join(os.getcwd(), path2)
-        file3_path = os.path.join(os.getcwd(), path3)
-        with open(file1_path, 'r', encoding='utf-8') as f1:
-            file1 = f1.readlines()
-        with open(file2_path, 'r', encoding='utf-8') as f2:
-            file2 = f2.readlines()
-        with open(file3_path, 'r', encoding='utf-8') as f3:
-            file3 = f3.readlines()
-        with open(output_file, 'w', encoding='utf-8') as f_total:
+def end_file():
+    file_directory = 'sorted'
+    output_file = "output_file.txt"
 
-            if len(file1) < len(file2) and len(file1) < len(file3):
-                f_total.write(path1 + '\n')
-                f_total.write(str(len(file1)) + '\n')
-                f_total.writelines(file1)
-                f_total.write('\n')
-            elif len(file2) < len(file1) and len(file2) < len(file3):
-                f_total.write(path2 + '\n')
-                f_total.write(str(len(file2)) + '\n')
-                f_total.writelines(file2)
-                f_total.write('\n')
-            elif len(file3) < len(file1) and len(file3) < len(file2):
-                f_total.write(path3 + '\n')
-                f_total.write(str(len(file3)) + '\n')
-                f_total.writelines(file3)
-                f_total.write('\n')
-            if len(file2) > len(file1) > len(file3) or len(file2) < len(file1) < len(
-                    file3):
-                f_total.write(path1 + '\n')
-                f_total.write(str(len(file1)) + '\n')
-                f_total.writelines(file1)
-                f_total.write('\n')
-            elif len(file1) > len(file2) > len(file3) or len(file2) > len(file1) and len(file2) < len(
-                    file3):
-                f_total.write(path2 + '\n')
-                f_total.write(str(len(file2)) + '\n')
-                f_total.writelines(file2)
-                f_total.write('\n')
-            elif len(file1) > len(file3) > len(file2) or len(file3) > len(file1) and len(file3) < len(
-                    file2):
-                f_total.write(path3 + '\n')
-                f_total.write(str(len(file3)) + '\n')
-                f_total.writelines(file3)
-                f_total.write('\n')
-            if len(file1) > len(file2) and len(file1) > len(file3):
-                f_total.write(path1 + '\n')
-                f_total.write(str(len(file1)) + '\n')
-                f_total.writelines(file1)
-            elif len(file2) > len(file1) and len(file2) > len(file3):
-                f_total.write(path2 + '\n')
-                f_total.write(str(len(file2)) + '\n')
-                f_total.writelines(file2)
-            elif len(file3) > len(file1) and len(file3) > len(file2):
-                f_total.write(path3 + '\n')
-                f_total.write(str(len(file3)) + '\n')
-                f_total.writelines(file3)
-    else:
-        print('Ошибон!')
-    return
+    file_data = []
+
+    os.chdir(file_directory)
+    files = os.listdir()
+
+    for file_name in files:
+        file_path = os.path.join(os.getcwd(), file_name)
+        with open(file_path, 'r', encoding='utf-8') as file:
+            lines = file.readlines()
+            file_data.append({
+                'name': file_name,
+                'line_count': len(lines),
+                'lines': lines
+            })
+
+    file_data = sorted(file_data, key=lambda x: x['line_count'])
+
+    with open(output_file, 'w', encoding='utf-8') as output:
+        for file in file_data:
+            output.write(file['name'] + '\n')
+            output.write(str(file['line_count']) + '\n')
+            output.writelines(file['lines'])
+            output.write('\n')
 
 
 
@@ -123,7 +84,7 @@ if __name__ == '__main__':
     pprint(get_shop_list_by_dishes(dishes=['Запеченный картофель', 'Омлет'], person_count=2))
 
 
-    print('------Задание 3 - Внимание, говорит Германия! Вызов функции ниже создаст выходной файл в папке "sorted" ------')
+    print('------Задание 3 -Надеюсь, я понял что вы имеете ввиду. Я постарался переделать свой код, и вроде, тперь работает как надо. Вызов функции ниже создаст выходной файл в папке "sorted"------')
     end_file()
 
 
